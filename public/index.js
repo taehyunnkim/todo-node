@@ -1,51 +1,63 @@
+/*
+ * Name: Eric Kim
+ * Date: May 17, 2020
+ * Section: CSE 154 AK
+ *
+ * This is the JS for managing the UI and the behavior of the todo application.
+ * The user could add and remove a task, and the UI will change based on
+ * these interactions.
+ */
+
 'use strict';
 
 (function() {
-  const BASE_URL = 'http://localhost:8000/'
-  let state = {
-    taskList: [],
-    inputtedText: ''
-  };
+  const BASE_URL = 'http://localhost:8000/';
 
   window.addEventListener('load', init);
 
+  /**
+   * Sets up the UI of the todo application.
+   * Updates the todo list dashboard to display
+   * any item that hasn't been removed from the user's
+   * previous session.
+   */
   function init() {
     let addButton = document.getElementById('add-task');
     addButton.addEventListener('click', addTask);
-    
     let input = document.getElementById('task-input');
-    input.addEventListener('input', renderInput);
-
+    input.addEventListener('input', renderButton);
     renderTasks();
-    renderInput();
   }
 
+  /**
+   * Creates a new list item with the given description and id.
+   * @param {Object} task - data containing the description and the id of the task.
+   * @return {Object} a list item element.
+   */
   function createTaskElement(task) {
     let li = document.createElement('li');
     li.textContent = task.description;
     li.addEventListener('click', removeTask);
-
     let id = document.createElement('span');
     id.textContent = task.id;
     id.classList.add('hidden');
     li.appendChild(id);
-  
     return li;
   }
   
+  /**
+   * Displays the updated todo list dashboard.
+   */
   function renderTasks() {
     let ol = document.querySelector('ol');
-
-    while(ol.hasChildNodes()){
+    while (ol.hasChildNodes()) {
       ol.removeChild(ol.lastChild);
     }
-
     fetch(BASE_URL + 'getTasks')
       .then(checkStatus)
       .then(resp => resp.json())
       .then(tasks => {
-        state.taskList = tasks;
-        state.taskList.forEach(task => {
+        tasks.forEach(task => {
           let taskItem = createTaskElement(task);
           ol.appendChild(taskItem);
         });
@@ -53,41 +65,51 @@
       .catch(err => console.log(err));
   }
   
+  /**
+   * Adds a new task in the todo list.
+   * @param {Object} e - the event object to prevent default action.
+   */
   function addTask(e) {
     e.preventDefault();
     let formData = new FormData(document.getElementById("input-form"));
     let id = Math.floor(Math.random() * Math.floor(Number.MAX_SAFE_INTEGER));
     formData.append("id", id);
-    fetch(BASE_URL + 'addTask', { method: 'POST', body: formData })
+    fetch(BASE_URL + 'addTask', {method: 'POST', body: formData})
       .then(checkStatus)
       .then(resp => resp.text())
       .then(result => {
         showAlert(result);
         renderTasks();
+        renderButton();
         let input = document.getElementById('task-input');
         input.value = '';
-        renderInput();
       })
       .catch(showAlert('Something went wrong...'));
   }
 
+  /**
+   * Removes the task from the todo list.
+   */
   function removeTask() {
     let data = new FormData();
     data.append('id', this.children[0].textContent);
     fetch(BASE_URL + 'removeTask', {method: 'POST', body: data})
-    .then(checkStatus)
-    .then(resp => resp.text())
-    .then(result => {
-      showAlert(result);
-      renderTasks();
-      let input = document.getElementById('task-input');
-      input.value = '';
-      renderInput();
-    })
-    .catch(showAlert('Something went wrong...'));
+      .then(checkStatus)
+      .then(resp => resp.text())
+      .then(result => {
+        showAlert(result);
+        renderTasks();
+        renderButton();
+        let input = document.getElementById('task-input');
+        input.value = '';
+      })
+      .catch(showAlert('Something went wrong...'));
   }
 
-  function renderInput() {
+  /**
+   * Disables the button if the text input is empty.
+   */
+  function renderButton() {
     let input = document.getElementById('task-input');
     let addButton = document.getElementById('add-task');
 
@@ -98,11 +120,15 @@
     }
   }
 
+  /**
+   * Display a message in the homepage.
+   * @param {String} message - the message to display.
+   */
   function showAlert(message) {
     let alert = document.getElementById('alert');
     alert.textContent = message;
     setTimeout(() => {
-      alert.textContent = ''
+      alert.textContent = '';
     }, 1500);
   }
 

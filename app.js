@@ -19,7 +19,7 @@ app.post('/addTask', (req, res) => {
 
       res.send("Task was added!");
     }
-  } catch {
+  } catch (err) {
     res.type('text').status(500).send('Whoops!');
   }
 });
