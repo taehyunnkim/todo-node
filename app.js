@@ -13,13 +13,15 @@ app.post('/addTask', (req, res) => {
     let id = req.body.id;
     let newTask = {id, description};
     if (!(newTask)) {
-      res.type('text').status(400).send('Please add a description!');
+      res.type('text').status(400)
+        .send('Please add a description!');
     } else {
       addTask(newTask);
       res.send("Task was added!");
     }
   } catch (err) {
-    res.type('text').status(500).send('Whoops!');
+    res.type('text').status(500)
+      .send('Whoops!');
   }
 });
 
@@ -47,7 +49,7 @@ app.get('/getTasks', (req, res) => {
 
 /**
  * Retrieves all the tasks in the todo list.
- * @return an array of tasks.
+ * @return {Array} an array of tasks.
  */
 async function getTasks() {
   let contents = await fs.readFile('todos.json', 'utf-8');
