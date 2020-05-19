@@ -44,7 +44,7 @@
     li.appendChild(id);
     return li;
   }
-  
+
   /**
    * Displays the updated todo list dashboard.
    */
@@ -62,9 +62,9 @@
           ol.appendChild(taskItem);
         });
       })
-      .catch(err => console.log(err));
+      .catch(showAlert('Something went wrong...'));
   }
-  
+
   /**
    * Adds a new task in the todo list.
    * @param {Object} e - the event object to prevent default action.

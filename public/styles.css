@@ -36,7 +36,7 @@ li:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
 
-input[type=text] {
+input[type="text"] {
   border-radius: 3px;
   border: 1px solid rgba(0, 0, 0, 0.25);
   display: block;

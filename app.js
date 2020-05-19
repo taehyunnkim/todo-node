@@ -33,7 +33,7 @@ app.post('/removeTask', (req, res) => {
       removeTask(id);
       res.send("Task was removed!");
     }
-  } catch {
+  } catch (err) {
     res.type('text').status(500).send('Whoops!');
   }
 });
