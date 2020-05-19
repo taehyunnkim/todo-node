@@ -1,0 +1,21 @@
+{
+  "name": "cp4-node-api-kim2000",
+  "version": "1.0.0",
+  "description": "For your fourth Creative Project, you will create your own Node.js web service available for use with AJAX and fetch. Once again, as a Creative Project, you have freedom to have more ownership in your work, as long as you meet the requirements listed below.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.cs.washington.edu/cse154-20sp-students/cp4-node-api-kim2000.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "multer": "^1.4.2",
+    "nodemon": "^2.0.4"
+  }
+}
