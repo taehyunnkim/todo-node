@@ -2,7 +2,7 @@
   "name": "cp4-node-api-kim2000",
   "version": "1.0.0",
   "description": "For your fourth Creative Project, you will create your own Node.js web service available for use with AJAX and fetch. Once again, as a Creative Project, you have freedom to have more ownership in your work, as long as you meet the requirements listed below.",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon app.js"

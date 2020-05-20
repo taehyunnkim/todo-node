@@ -62,7 +62,7 @@
           ol.appendChild(taskItem);
         });
       })
-      .catch(showAlert('Something went wrong...'));
+      .catch(() => showAlert('Something went wrong...'));
   }
 
   /**
@@ -84,16 +84,21 @@
         let input = document.getElementById('task-input');
         input.value = '';
       })
-      .catch(showAlert('Something went wrong...'));
+      .catch(() => showAlert('Something went wrong...'));
   }
 
   /**
    * Removes the task from the todo list.
    */
   function removeTask() {
-    let data = new FormData();
-    data.append('id', this.children[0].textContent);
-    fetch(BASE_URL + 'removeTask', {method: 'POST', body: data})
+    let id = this.children[0].textContent;
+    fetch(BASE_URL + 'removeTask', {
+      method: 'POST', 
+      body: 'id=' + id,
+      headers: {
+        'Content-type': 'application/x-www-form-urlencoded'
+      }
+    })
       .then(checkStatus)
       .then(resp => resp.text())
       .then(result => {
@@ -103,7 +108,7 @@
         let input = document.getElementById('task-input');
         input.value = '';
       })
-      .catch(showAlert('Something went wrong...'));
+      .catch(() => showAlert('Something went wrong...'));
   }
 
   /**

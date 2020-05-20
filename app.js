@@ -1,3 +1,13 @@
+/*
+ * Name: Eric Kim
+ * Date: May 17, 2020
+ * Section: CSE 154 AK
+ *
+ * This is the JS for managing the server side of the todo application.
+ * The user could make post and get requests to manipulate the data
+ * in the data storage.
+ */
+
 'use strict';
 const multer = require("multer");
 const express = require('express');
@@ -5,23 +15,18 @@ const app = express();
 const fs = require('fs').promises;
 
 app.use(multer().none());
-app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
 
 app.post('/addTask', (req, res) => {
   try {
     let description = req.body.task;
     let id = req.body.id;
     let newTask = {id, description};
-    if (!(newTask)) {
-      res.type('text').status(400)
-        .send('Please add a description!');
-    } else {
-      addTask(newTask);
-      res.send("Task was added!");
-    }
+    addTask(newTask);
+    res.send("Task was added!");
   } catch (err) {
     res.type('text').status(500)
-      .send('Whoops!');
+      .send("Something went wrong!");
   }
 });
 
@@ -30,14 +35,14 @@ app.post('/removeTask', (req, res) => {
     let id = req.body.id;
     if (!(id)) {
       res.type('text').status(400)
-        .send('Please add a description!');
+        .send('Please provide an id!');
     } else {
       removeTask(id);
       res.send("Task was removed!");
     }
   } catch (err) {
     res.type('text').status(500)
-      .send('Whoops!');
+      .send("Something went wrong!");
   }
 });
 
@@ -57,7 +62,7 @@ async function getTasks() {
 }
 
 /**
- * Adds a new task to todos.json.
+ * Adds a new task to the data in the data storage.
  * @param {Object} task - task data with description and id to add.
  */
 async function addTask(task) {
@@ -67,8 +72,8 @@ async function addTask(task) {
 }
 
 /**
- * Removes a task from todos.json.
- * @param {Object} id - id of the task to remove from todo.json.
+ * Removes a task from the data in the data storage.
+ * @param {Object} id - id of the task to remove from the data.
  */
 async function removeTask(id) {
   let tasks = await getTasks();
