@@ -9,13 +9,13 @@
  */
 
 'use strict';
-const multer = require("multer");
+const multer = require('multer');
 const express = require('express');
 const app = express();
 const fs = require('fs').promises;
 
 app.use(multer().none());
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({extended: false}));
 
 app.post('/addTask', (req, res) => {
   try {
@@ -23,10 +23,10 @@ app.post('/addTask', (req, res) => {
     let id = req.body.id;
     let newTask = {id, description};
     addTask(newTask);
-    res.send("Task was added!");
+    res.send('Task was added!');
   } catch (err) {
     res.type('text').status(500)
-      .send("Something went wrong!");
+      .send('Something went wrong!');
   }
 });
 
@@ -38,18 +38,18 @@ app.post('/removeTask', (req, res) => {
         .send('Please provide an id!');
     } else {
       removeTask(id);
-      res.send("Task was removed!");
+      res.send('Task was removed!');
     }
   } catch (err) {
     res.type('text').status(500)
-      .send("Something went wrong!");
+      .send('Something went wrong!');
   }
 });
 
 app.get('/getTasks', (req, res) => {
   getTasks()
     .then(data => res.send(data))
-    .catch(() => res.send("Something went wrong!"));
+    .catch(() => res.send('Something went wrong!'));
 });
 
 /**

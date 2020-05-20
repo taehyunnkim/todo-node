@@ -71,18 +71,18 @@
    */
   function addTask(e) {
     e.preventDefault();
-    let formData = new FormData(document.getElementById("input-form"));
+    let formData = new FormData(document.getElementById('input-form'));
     let id = Math.floor(Math.random() * Math.floor(Number.MAX_SAFE_INTEGER));
-    formData.append("id", id);
+    formData.append('id', id);
     fetch(BASE_URL + 'addTask', {method: 'POST', body: formData})
       .then(checkStatus)
       .then(resp => resp.text())
       .then(result => {
         showAlert(result);
         renderTasks();
-        renderButton();
         let input = document.getElementById('task-input');
         input.value = '';
+        renderButton();
       })
       .catch(() => showAlert('Something went wrong...'));
   }
@@ -93,7 +93,7 @@
   function removeTask() {
     let id = this.children[0].textContent;
     fetch(BASE_URL + 'removeTask', {
-      method: 'POST', 
+      method: 'POST',
       body: 'id=' + id,
       headers: {
         'Content-type': 'application/x-www-form-urlencoded'
@@ -147,7 +147,7 @@
     if (response.ok) {
       return response;
     } else {
-      throw Error("Error in request: " + response.statusText);
+      throw Error('Error in request: ' + response.statusText);
     }
   }
 })();
